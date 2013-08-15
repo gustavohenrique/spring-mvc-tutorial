@@ -15,6 +15,17 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
+	
+	<bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="false"/>
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="false"/>
+        <property name="locations">
+            <list>
+                <value>classpath*:/application.properties</value>
+            </list>
+        </property>
+    </bean>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
@@ -27,40 +38,40 @@
 	
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 	
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<property name="user" value="root"/>
-		<property name="password" value="root"/>
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/spring_mvc_tutorial"/>
-		<property name="maxPoolSize" value="10"/>
-		<property name="acquireIncrement" value="1"/>
-		<property name="maxIdleTime" value="120"/>
-		<property name="acquireRetryAttempts" value="10"/>
-		<property name="initialPoolSize" value="10"/>
-	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>${jdbc.driver}</value>
+        </property>
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="username">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+    </bean>
  
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.connection.pool_size">5</prop>
+                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.hibernate.cache.use_query_cache">true</prop>
             </props>
         </property>
-        
-        <property name="annotatedClasses">
-            <array>
-                <value>net.gustavohenrique.tutorial.domain.Usuario</value>
-            </array>
-        </property>
-        
-        <!--
-        <property name="annotatedPackages">
+        <property name="packagesToScan">
             <list>
                 <value>net.gustavohenrique.tutorial.domain</value>
             </list>
         </property>
-        --> 
     </bean>
     
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

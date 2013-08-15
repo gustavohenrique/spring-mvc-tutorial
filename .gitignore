@@ -15,6 +15,7 @@ play
 logs
 tmp
 precompiled
+database
 test-result
 eclipse
 target
