@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "usuario")
 public class Usuario implements java.io.Serializable {
-
+    
     @Id
     @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,8 +61,19 @@ public class Usuario implements java.io.Serializable {
     @Column(name = "hash_senha", nullable = false, length = 128)
     private String hashSenha;
     
+    
+    public Usuario() {}
+    
+    public Usuario(String id) {
+        this.id = Long.valueOf(id);
+    }
+    
     public long getId() {
         return id;
+    }
+    
+    public String getStringId() {
+        return String.valueOf(id);
     }
 
     public void setId(long valor) {
