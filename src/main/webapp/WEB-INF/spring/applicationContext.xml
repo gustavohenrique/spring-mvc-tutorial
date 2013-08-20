@@ -31,27 +31,22 @@
     </bean>
     
     <mvc:interceptors>
-        <bean class="net.gustavohenrique.tutorial.config.UserInterceptor">
+        <bean class="net.gustavohenrique.tutorial.social.UserInterceptor">
             <constructor-arg ref="usersConnectionRepository" />
         </bean>
     </mvc:interceptors>
 
-<!--     
-    <bean class="net.gustavohenrique.tutorial.web.HomeController">
-        <constructor-arg ref="facebook" />
-    </bean>
- -->
+
     <!-- Allows users to sign-in with their provider accounts.  -->
     <bean class="org.springframework.social.connect.web.ProviderSignInController">
         <constructor-arg ref="connectionFactoryLocator" />
         <constructor-arg ref="usersConnectionRepository" />     
         <constructor-arg>
-            <bean class="net.gustavohenrique.tutorial.config.SimpleSignInAdapter" />
+            <bean class="net.gustavohenrique.tutorial.social.SimpleSignInAdapter" />
         </constructor-arg>
     </bean>
         
     <mvc:view-controller path="/signin" />
-    
     <mvc:view-controller path="/signout" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -64,10 +59,7 @@
 	</bean>
 	
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-    
-    
-    <bean class="net.gustavohenrique.tutorial.config.SocialConfig" />
-    
+    <bean class="net.gustavohenrique.tutorial.social.SocialConfig" />
     
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName">

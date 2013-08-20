@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.gustavohenrique.tutorial.config;
+package net.gustavohenrique.tutorial.social;
 
-import javax.servlet.http.HttpServletResponse;
-
-import net.gustavohenrique.tutorial.domain.Usuario;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.web.SignInAdapter;
-import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.social.connect.ConnectionSignUp;
 
 
-public final class SimpleSignInAdapter implements SignInAdapter {
+public final class SimpleConnectionSignUp implements ConnectionSignUp {
 
-	private final UserCookieGenerator userCookieGenerator = new UserCookieGenerator();
+	private final AtomicLong userIdSequence = new AtomicLong();
 	
 	@Override
-    public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
-		SecurityContext.setCurrentUser(new Usuario(userId));
-		userCookieGenerator.addCookie(userId, request.getNativeResponse(HttpServletResponse.class));
-		return null;
+    public String execute(Connection<?> connection) {
+		return Long.toString(userIdSequence.incrementAndGet());
 	}
 
 }

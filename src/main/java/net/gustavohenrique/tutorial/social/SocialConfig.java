@@ -1,9 +1,9 @@
-package net.gustavohenrique.tutorial.config;
+package net.gustavohenrique.tutorial.social;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import net.gustavohenrique.tutorial.domain.Usuario;
+import net.gustavohenrique.tutorial.domain.User;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,7 @@ public class SocialConfig {
     @Bean
     @Scope(value="request", proxyMode=ScopedProxyMode.INTERFACES)
     public ConnectionRepository connectionRepository() {
-        Usuario user = SecurityContext.getCurrentUser();
+        User user = SecurityContext.getCurrentUser();
         return usersConnectionRepository().createConnectionRepository(user.getStringId());
     }
 

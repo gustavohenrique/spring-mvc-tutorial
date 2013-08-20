@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.gustavohenrique.tutorial.config;
+package net.gustavohenrique.tutorial.social;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

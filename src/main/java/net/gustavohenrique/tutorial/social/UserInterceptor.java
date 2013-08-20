@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.gustavohenrique.tutorial.config;
+package net.gustavohenrique.tutorial.social;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.gustavohenrique.tutorial.domain.Usuario;
+import net.gustavohenrique.tutorial.domain.User;
 
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
@@ -63,7 +63,7 @@ public final class UserInterceptor extends HandlerInterceptorAdapter {
 			userCookieGenerator.removeCookie(response);
 			return;
 		}
-		SecurityContext.setCurrentUser(new Usuario(userId));
+		SecurityContext.setCurrentUser(new User(userId));
 	}
 
 	private void handleSignOut(HttpServletRequest request, HttpServletResponse response) {
